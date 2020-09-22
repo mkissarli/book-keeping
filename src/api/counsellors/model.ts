@@ -75,4 +75,18 @@ export interface ICounsellor extends db.Document {
   availability: [IAppointment]  
 }
 
+counsellor_schema.methods.add_appointment = async function(db_id: string, datetime: Date){
+  return await counsellor_model.findById(db_id)
+    .then((doc) => {
+      console.log("this is working");
+      doc?.availability.push(new appointment_model({datetime: datetime}));
+      doc?.save();
+    })
+    .catch((err) => {
+      throw new Error("adding appointment failed: " + err);
+      
+      return err;
+    })
+}
+
 export const counsellor_model = db.model<ICounsellor>("Counsellor", counsellor_schema);
