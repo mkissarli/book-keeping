@@ -2,6 +2,7 @@ import { appointment_model } from '../../../src/api/appointments/model';
 import db from 'mongoose';
 
 const valid_appointment_data = {date: "2020-10-13T10:00:00.000Z"};
+const outdated_appointment_data = {date: "1980-10-13T10:00:00.000Z"};
 
 describe("Appointment Model Test", () => {
   beforeAll(async () => {
@@ -23,7 +24,12 @@ describe("Appointment Model Test", () => {
   });
 
   it("fail if new apoointment is in the past", async () => {
-    //expect(4).toBe(3);
-  })
+    const invalid_appointment = new appointment_model(outdated_appointment_data);
+    //const saved_appointment = await invalid_appointment.save();
+
+    await expect(invalid_appointment.save())
+      .rejects
+      .toThrow(db.Error.ValidationError);
+  });
 
 })

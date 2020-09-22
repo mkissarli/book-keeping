@@ -7,9 +7,11 @@ export const appointment_schema = new db.Schema({
   //},
   date: {
     type: Date,
-    required: true
+    required: true,
+    min: Date.now()
   }
 });
+
 
 export interface Appointment extends db.Document {
   date:{
