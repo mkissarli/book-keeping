@@ -1,7 +1,7 @@
 import db from 'mongoose';
 import { appointment_model } from '../appointments/model';
 
-const counsellor_schema = new db.Schema({
+export const counsellor_schema = new db.Schema({
   counsellor_id: {
     type: String,
     required: true

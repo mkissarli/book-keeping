@@ -1,6 +1,6 @@
 import db from 'mongoose';
 
-const appointment_schema = new db.Schema({
+export const appointment_schema = new db.Schema({
   id: {
     type: String,
     required: true
