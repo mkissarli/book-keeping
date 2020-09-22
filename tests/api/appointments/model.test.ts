@@ -1,9 +1,9 @@
 import { appointment_model } from '../../../src/api/appointments/model';
 import db from 'mongoose';
 
-const valid_appointment_data = {date: "2020-10-13T10:00:00.000Z"};
-const outdated_appointment_data = {date: "1980-10-13T10:00:00.000Z"};
-const wrong_date_appointment_data = {date: "not today little friend."};
+const valid_appointment_data = {datetime: "2020-10-13T10:00:00.000Z"};
+const outdated_appointment_data = {datetime: "1980-10-13T10:00:00.000Z"};
+const wrong_date_appointment_data = {datetime: "not today little friend."};
 
 describe("Appointment Model Test", () => {
   beforeAll(async () => {
@@ -21,7 +21,7 @@ describe("Appointment Model Test", () => {
 
     expect(saved_appointment._id).toBeDefined();
     // Idk why it doesn't like toBe here but it works.
-    expect(saved_appointment.date).toStrictEqual(new Date(valid_appointment_data.date));
+    expect(saved_appointment.datetime).toStrictEqual(new Date(valid_appointment_data.datetime));
   });
 
   it("fail if new apoointment is in the past", async () => {

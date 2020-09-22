@@ -1,5 +1,5 @@
 import db from 'mongoose';
-import { appointment_model } from '../appointments/model';
+import { appointment_model, appointment_schema, IAppointment } from '../appointments/model';
 
 export const counsellor_schema = new db.Schema({
   counsellor_id: {
@@ -14,19 +14,48 @@ export const counsellor_schema = new db.Schema({
     type: String,
     required: true
   },
-  appointment_types: {
+  appointment_types: [{
     type: String,
     enum: ["consultation", "one_off"],
     required: true
-  },
-  appointment_mediums: {
+  }],
+  appointment_mediums: [{
     type: String,
     enum: ["phone", "video"],
     required: true
-  },
-  avaliability: {
-    type: [appointment_model]
+  }],
+  availability: {
+    type: [appointment_schema]
   }
-})
+});
 
-export const counsellor_model = db.model<db.Document>("Counsellor", counsellor_schema);
+//counsellor_schema.pre("save", function() {
+//  this.markModified("avaliability");
+//});
+
+export interface ICounsellor extends db.Document {
+  counsellor_id: {
+    type: String,
+  },
+  first_name: {
+    type: String,
+    required: true
+  },
+  last_name: {
+    type: String,
+    required: true
+  },
+  appointment_types: [{
+    type: String,
+    enum: ["consultation", "one_off"],
+    required: true
+  }],
+  appointment_mediums: [{
+    type: String,
+    enum: ["phone", "video"],
+    required: true
+  }],
+  availability: [IAppointment]  
+}
+
+export const counsellor_model = db.model<ICounsellor>("Counsellor", counsellor_schema);
