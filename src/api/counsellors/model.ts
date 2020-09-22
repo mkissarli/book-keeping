@@ -1,4 +1,5 @@
 import db from 'mongoose';
+import { appointment_model } from '../appointments/model';
 
 const counsellor_schema = new db.Schema({
   counsellor_id: {
@@ -24,7 +25,7 @@ const counsellor_schema = new db.Schema({
     required: true
   },
   avaliability: {
-    type: [Date]
+    type: [appointment_model]
   }
 })
 

@@ -25,10 +25,13 @@ We have provided a json file with data.
 
 ## Requirements
 
-- [ ] duplicate this repo (do not fork it) please do not name your repo `Spill Coding Challenge` or anything similar - we don't want future applicants copying your code
+- [X] duplicate this repo (do not fork it) please do not name your repo `Spill Coding Challenge` or anything similar - we don't want future applicants copying your code
 - [ ] create the API using Node.js according to the above specifications
-- [ ] you need to store the `data.json` file in a database
+- [X] you need to store the `data.json` file in a database
 - [ ] you **do not** need to host the API
 - [ ] write max `300` words in a markdown file in your repo on why you made the technical decisions you did
 - [ ] include instructions on how to run it locally including the database
 - [ ] send us a link to the repo (if the repo is private we will tell you who to add as a collaborator)
+
+# Notes
++ How I imported "C:\Program Files\MongoDB\Server\4.2\bin\mongoimport" --jsonArray -d spill -c spill data.json
