@@ -16,12 +16,12 @@ const counsellor_schema = new db.Schema({
   },
   appointment_types: {
     type: String,
-    enum: [""],
+    enum: ["consultation", "one_off"],
     required: true
   },
   appointment_mediums: {
     type: String,
-    enum: [""],
+    enum: ["phone", "video"],
     required: true
   },
   avaliability: {
