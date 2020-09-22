@@ -3,6 +3,7 @@ import db from 'mongoose';
 
 const valid_appointment_data = {date: "2020-10-13T10:00:00.000Z"};
 const outdated_appointment_data = {date: "1980-10-13T10:00:00.000Z"};
+const wrong_date_appointment_data = {date: "not today little friend."};
 
 describe("Appointment Model Test", () => {
   beforeAll(async () => {
@@ -31,5 +32,16 @@ describe("Appointment Model Test", () => {
       .rejects
       .toThrow(db.Error.ValidationError);
   });
+
+  it("invalid date format for appointment", async () => {
+    const invalid_appointment = new appointment_model(wrong_date_appointment_data);
+
+    await expect(invalid_appointment.save())
+      .rejects
+      .toThrow(db.Error.ValidationError);
+  });
+
+  // Should I test incomplete dates? Atm they would be considered correct and that's fine but it can introduces inconsistencies.
+
 
 })
