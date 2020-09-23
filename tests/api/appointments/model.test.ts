@@ -43,5 +43,16 @@ describe("Appointment Model Test", () => {
 
   // Should I test incomplete dates? Atm they would be considered correct and that's fine but it can introduces inconsistencies.
 
+  async function removeAllCollections () {
+    const collections = Object.keys(db.connection.collections)
+    for (const collectionName of collections) {
+      const collection = db.connection.collections[collectionName]
+      await collection.deleteMany({})
+    }
+  }
+  
+  afterEach(async () => {
+    await removeAllCollections()
+  })
 
 })

@@ -217,6 +217,7 @@ describe("Counsellor Model Test", () => {
       .toThrow(db.Error.ValidationError);
   })
 
+  /*
   it("to fail if appointment_types is missing", async () => {
     const invalid_counsellor = new counsellor_model(missing_app_types_data); 
     const saved_counsellor = invalid_counsellor.save();
@@ -234,6 +235,7 @@ describe("Counsellor Model Test", () => {
       .rejects
       .toThrow(db.Error.ValidationError);
   })
+  */
 
   it("to fail if appointment_types has wrong data", async () => {
     const invalid_counsellor = new counsellor_model(wrong_app_types_data); 
@@ -251,5 +253,17 @@ describe("Counsellor Model Test", () => {
     await expect(saved_counsellor)
       .rejects
       .toThrow(db.Error.ValidationError);
+  })
+
+  async function removeAllCollections () {
+    const collections = Object.keys(db.connection.collections)
+    for (const collectionName of collections) {
+      const collection = db.connection.collections[collectionName]
+      await collection.deleteMany({})
+    }
+  }
+  
+  afterEach(async () => {
+    await removeAllCollections()
   })
 })

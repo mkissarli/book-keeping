@@ -1,6 +1,9 @@
 import db from 'mongoose';
 import { appointment_model, appointment_schema, IAppointment } from '../appointments/model';
 
+export const appointment_types_enum: any = ["consultation", "one_off"];
+export const appointment_medium_enum: any = ["phone", "video"];
+
 export const counsellor_schema = new db.Schema({
   counsellor_id: {
     type: String,
@@ -17,20 +20,14 @@ export const counsellor_schema = new db.Schema({
     default: undefined
   },
   appointment_types: {
-    type: [{
-      type: String,
-      enum: ["consultation", "one_off"],
-      default: undefined
-    }],
-    validate: (v: any) => Array.isArray(v) && v.length > 0,
+    type: [String],
+    enum: appointment_types_enum,
+    //validate: (v: any) => Array.isArray(v) && v.length > 0,
   },
   appointment_mediums: {
-    type: [{
-      type: String,
-      enum: ["phone", "video"],
-      default: undefined
-    }],
-    validate: (v: any) => Array.isArray(v) && v.length > 0,
+    type: [String],
+    enum: appointment_medium_enum,
+    //validate: (v: any) => Array.isArray(v) && v.length > 0,
   },
   availability: {
     type: [appointment_schema]
@@ -56,37 +53,17 @@ export interface ICounsellor extends db.Document {
     required: true,
     default: undefined
   },
-  appointment_types: {
-    type: [{
-      type: String,
-      enum: ["consultation", "one_off"],
-      default: undefined
-    }],
+  appointment_types: [string]/*{
+    type: [String],
+    enum: ["consultation", "one_off"],
     required: true
-  },
-  appointment_mediums: {
-    type: [{
-      type: String,
-      enum: ["phone", "video"],
-      default: undefined
-    }],
+  }*/,
+  appointment_mediums: [string]/*{
+    type: [String],
+    enum: ["phone", "video"],
     required: true
-  },
+  }*/,
   availability: [IAppointment]  
-}
-
-counsellor_schema.methods.add_appointment = async function(db_id: string, datetime: Date){
-  return await counsellor_model.findById(db_id)
-    .then((doc) => {
-      console.log("this is working");
-      doc?.availability.push(new appointment_model({datetime: datetime}));
-      doc?.save();
-    })
-    .catch((err) => {
-      throw new Error("adding appointment failed: " + err);
-      
-      return err;
-    })
 }
 
 export const counsellor_model = db.model<ICounsellor>("Counsellor", counsellor_schema);
