@@ -46,21 +46,21 @@ app.get('/appointments', async function (req, res) {
      req.body.appointment_types == undefined ||
      req.body.appointment_mediums == undefined){
        res.send({
-         status: 301,
+         status: 400,
          message: "Fail, ensure that all the parameters are included."
        })
      }
   // Check is a datetime string.
   if(!Date.parse(req.body.start_date) || !Date.parse(req.body.end_date)){
     res.send({
-      status: 301,
+      status: 400,
       message: "Dates in incompatible format, insure that they are compatible dates."
     })
   }
   // Check if arrays
   if(!Array.isArray(req.body.appointment_mediums) || !Array.isArray(req.body.appointment_types)){
     res.send({
-      status: 301,
+      status: 400,
       message: "appointment_mediums or appointment_types are not arrays, please ensure they are arrays."
     })
   }
@@ -69,15 +69,15 @@ app.get('/appointments', async function (req, res) {
   var val: any = await get_filtered_appointments(new Date(req.body.start_date), new Date(req.body.end_date), req.body.appointment_types, req.body.appointment_mediums)
     .then(async (result: any) => {
       return {
-        status: 201,
+        status: 200,
         message: "Got filtered appointments list",
         result: result
       };
     })
     .catch((err) => {
       return {
-        status: 201,
-        message: "fail",
+        status: 500,
+        message: "fail?",
         error: err
       }
     })
@@ -92,7 +92,7 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
   // Check payload exists.
   if(req.body == undefined && req.body.datetimes == undefined){
     res.send({
-      staus: 301,
+      staus: 400,
       message: "No datetimes provided to add."
     });
   }
@@ -100,7 +100,7 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
   // Check payload is array
   else if(!Array.isArray(req.body.datetimes)){
     res.send({
-      status: 301,
+      status: 400,
       message: "datetimes must be an array"
     });
   }
@@ -108,7 +108,7 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
   // Check it isn't empty
   else if(req.body.datetimes.length == 0){
     res.send({
-      status: 201,
+      status: 200,
       message: "Empty list of dates. No appointments added."
     })
   }
@@ -117,14 +117,14 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
   req.body.datetimes.forEach((x: any) => {
     if(!Date.parse(x)){
       res.send({
-        status: 201,
+        status: 400,
         message: "datetimes includes a incompatible datetime string: " + x
       })
     }
 
     else if (Date.parse(x) < Date.now()){
       res.send({
-        status: 201,
+        status: 400,
         message: "datetimes includes a datetime that is in the past: " + x
       })
     }
@@ -137,7 +137,7 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
         add_appointment(req.params.id, new Date(x))
           .catch((err) => {
             return {
-              status: 301,
+              status: 500,
               message: "fail?",
               error: err
             }
@@ -151,7 +151,7 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
     })
     .catch((err: any) => {
       return {
-        status: 201,
+        status: 404,
         message: "No counsellor by the id: " + req.params.id,
         error: err
       }
