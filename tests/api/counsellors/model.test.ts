@@ -199,6 +199,8 @@ describe("Counsellor Model Test", () => {
       .toThrow(db.Error.ValidationError);
   })
 
+  /* I would've thought that this couldn't be missing but the data.json has missing data so? 
+
   it("to fail if first_name is missing", async () => {
     const invalid_counsellor = new counsellor_model(missing_f_name_data); 
     const saved_counsellor = invalid_counsellor.save();
@@ -216,8 +218,8 @@ describe("Counsellor Model Test", () => {
       .rejects
       .toThrow(db.Error.ValidationError);
   })
-
-  /*
+  */
+  
   it("to fail if appointment_types is missing", async () => {
     const invalid_counsellor = new counsellor_model(missing_app_types_data); 
     const saved_counsellor = invalid_counsellor.save();
@@ -235,7 +237,7 @@ describe("Counsellor Model Test", () => {
       .rejects
       .toThrow(db.Error.ValidationError);
   })
-  */
+  
 
   it("to fail if appointment_types has wrong data", async () => {
     const invalid_counsellor = new counsellor_model(wrong_app_types_data); 
