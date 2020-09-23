@@ -26,12 +26,33 @@ We have provided a json file with data.
 ## Requirements
 
 - [X] duplicate this repo (do not fork it) please do not name your repo `Spill Coding Challenge` or anything similar - we don't want future applicants copying your code
-- [ ] create the API using Node.js according to the above specifications
+- [X] create the API using Node.js according to the above specifications
 - [X] you need to store the `data.json` file in a database
-- [ ] you **do not** need to host the API
-- [ ] write max `300` words in a markdown file in your repo on why you made the technical decisions you did
-- [ ] include instructions on how to run it locally including the database
+- [X] you **do not** need to host the API
+- [X] write max `300` words in a markdown file in your repo on why you made the technical decisions you did
+- [X] include instructions on how to run it locally including the database
 - [ ] send us a link to the repo (if the repo is private we will tell you who to add as a collaborator)
 
-# Notes
-+ How I imported "C:\Program Files\MongoDB\Server\4.2\bin\mongoimport" --jsonArray -d spill -c spill data.json
+# How to run
+
+Ensure that mongodb is installed from [https://www.mongodb.com/try/download/community] or your package manager. The version used is 4.2.0 (this is a little outdated, and that's on me not checking the version I had installed.) Create a new connection on the default port 27017 with the database name ```spill``` and collection name ```spill``` when prompted. That's it for database set up!
+
+Also ensure node is installed from [https://nodejs.org/en/] or your package manager. I was 12.9.1, but any v12 should be fine.
+
+Then we have to install our packages, run:
+
+``` npm install --save ```
+
+and finally
+
+``` npm run start ```
+
+to start the server (with hotloading.)
+
+To run tests use 
+
+``` npm run test ```
+
+Now before using the api, you should populate your mongodb with data.json. Do this by using your REST api client of choice and going to ```POST localhost:27017/populate``` which will import the ```data.json``` file to your database. DO THIS ONLY ONCE! Doing this more than once will populate the database again, without deleting old enteries.
+
+You should now have access to the API!
