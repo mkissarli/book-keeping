@@ -24,24 +24,24 @@ export var get_filtered_appointments = async function(
 
     var doc;
     // If it detects an empty array it assumes everything. Theres probs a more elegant way of doing this.
-    if(_appointment_types == []  && _appointment_mediums == []){
-      doc = await counsellor_model.find({})
+    if(_appointment_types.length == 0  && _appointment_mediums.length == 0){
+      doc = await counsellor_model.find({});
     }
-    else if(_appointment_types == []){
+    else if(_appointment_types.length == 0){
       doc = await counsellor_model.find({
         appointment_mediums: {$in: _appointment_mediums},
-      })
+      });
     }
-    else if(_appointment_mediums == []){
+    else if(_appointment_mediums.length == 0){
       doc = await counsellor_model.find({
         appointment_types:  {$in: _appointment_types},
-      })
+      });
     }
     else{
       doc = await counsellor_model.find({
         appointment_types:  {$in: _appointment_types},
         appointment_mediums: {$in: _appointment_mediums},
-      })
+      });
     }
    
     var result:any = [];

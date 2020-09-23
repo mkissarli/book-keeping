@@ -219,25 +219,6 @@ describe("Counsellor Model Test", () => {
       .toThrow(db.Error.ValidationError);
   })
   */
-  
-  it("to fail if appointment_types is missing", async () => {
-    const invalid_counsellor = new counsellor_model(missing_app_types_data); 
-    const saved_counsellor = invalid_counsellor.save();
-
-    await expect(saved_counsellor)
-      .rejects
-      .toThrow(db.Error.ValidationError);
-  })
-
-  it("to fail if appointment_mediums is missing", async () => {
-    const invalid_counsellor = new counsellor_model(missing_app_mediums_data); 
-    const saved_counsellor = invalid_counsellor.save();
-
-    await expect(saved_counsellor)
-      .rejects
-      .toThrow(db.Error.ValidationError);
-  })
-  
 
   it("to fail if appointment_types has wrong data", async () => {
     const invalid_counsellor = new counsellor_model(wrong_app_types_data); 

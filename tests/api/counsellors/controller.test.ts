@@ -115,6 +115,30 @@ describe("Counsellor Controller Test", () => {
     expect(doc).toHaveLength(4); 
   })
 
+  it("gets filtered_appointments when passed valid data where appointment_medium is empty", async () => {
+    await (new counsellor_model(valid_data)).save();
+    await (new counsellor_model(valid_data_2)).save();
+    await (new counsellor_model(valid_data_3)).save();
+
+    // Should give two.
+    var doc = await get_filtered_appointments(new Date("2020-10-16T10:00:00.000Z"), new Date("2020-10-18T10:00:00.000Z"), ['one_off'], []);
+    
+    expect(doc[0].datetime).toStrictEqual(new Date("2020-10-17T10:00:00.000Z"));
+    expect(doc[0].id).toBe("oW3GkuJWj6o5BsSf9BL3nv");
+    expect(doc).toHaveLength(1); 
+  })
+
+  it("gets filtered_appointments when passed valid data where appointment_types is empty", async () => {
+    await (new counsellor_model(valid_data)).save();
+    await (new counsellor_model(valid_data_2)).save();
+    await (new counsellor_model(valid_data_3)).save();
+
+    // Should give two.
+    var doc = await get_filtered_appointments(new Date("2020-10-16T10:00:00.000Z"), new Date("2020-10-18T10:00:00.000Z"), [], ['video']);
+    
+    expect(doc).toHaveLength(2); 
+  })
+
   // How do I test this more? I can't miss parameter, typescript doesn't allow it. Dates can go in the wrong direction, thats valid but will just always result in nothing.
 
   async function removeAllCollections () {

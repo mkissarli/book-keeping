@@ -56,3 +56,6 @@ To run tests use
 Now before using the api, you should populate your mongodb with data.json. Do this by using your REST api client of choice and going to ```POST localhost:27017/populate``` which will import the ```data.json``` file to your database. DO THIS ONLY ONCE! Doing this more than once will populate the database again, without deleting old enteries.
 
 You should now have access to the API!
+
+# Note
+The testing has a bug where sometimes the database isn't being run correctly before the suite which fails some tests, I have no idea whats going on, but running it again fixes this.

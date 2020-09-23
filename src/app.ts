@@ -87,8 +87,6 @@ app.get('/appointments', async function (req, res) {
 
 
 app.post('/counsellors/:id/appointments/add', async function (req, res){
-  //res.send(req.params.id);
-  // Check payload is the correct format.
   // Check payload exists.
   if(req.body == undefined && req.body.datetimes == undefined){
     res.send({
