@@ -35,7 +35,7 @@ We have provided a json file with data.
 
 # How to run
 
-Ensure that mongodb is installed from [https://www.mongodb.com/try/download/community] or your package manager. The version used is 4.2.0 (this is a little outdated, and that's on me not checking the version I had installed.) Create a new connection on the default port 27017 with the database name ```spill``` and collection name ```spill``` when prompted. That's it for database set up!
+Ensure that mongodb is installed from [https://www.mongodb.com/try/download/community] or your package manager. The version used is 4.2.0 (this is a little outdated, and that's on me not checking the version I had installed), but any 4.2.x should work fine.
 
 Also ensure node is installed from [https://nodejs.org/en/] or your package manager. I was 12.9.1, but any v12 should be fine.
 
