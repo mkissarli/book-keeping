@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import db from 'mongoose';
 
 
-import {add_appointment, get_filtered_appointments} from './api/counsellors/controller';
+import { add_appointment, get_filtered_appointments } from './api/counsellors/controller';
 import { counsellor_model } from './api/counsellors/model';
 
 // Create a new express application instance
@@ -22,7 +22,7 @@ app.get('/sanity_check', function (req, res) {
 });
 
 // DO NOT RUN THIS MORE THAN ONCE!
-app.post('/populate', async function(req, res) {
+app.post('/populate', async function (req, res) {
   var data = require("../data.json");
   await data.forEach((counsellor: any) => {
     (new counsellor_model(counsellor)).save();
@@ -39,26 +39,26 @@ app.post('/populate', async function(req, res) {
 // end_date : date
 // appointment_types: [String]
 // apointment_mediums: [String]
-app.get('/appointments', async function (req, res) {
+app.get('/appointments/', async function (req, res) {
   // Check if defined.
-  if(req.body.start_date == undefined ||
-     req.body.end_date == undefined ||
-     req.body.appointment_types == undefined ||
-     req.body.appointment_mediums == undefined){
-       res.send({
-         status: 400,
-         message: "Fail, ensure that all the parameters are included."
-       })
-     }
+  if (req.body.start_date == undefined ||
+    req.body.end_date == undefined ||
+    req.body.appointment_types == undefined ||
+    req.body.appointment_mediums == undefined) {
+    res.send({
+      status: 400,
+      message: "Fail, ensure that all the parameters are included."
+    })
+  }
   // Check is a datetime string.
-  if(!Date.parse(req.body.start_date) || !Date.parse(req.body.end_date)){
+  if (!Date.parse(req.body.start_date) || !Date.parse(req.body.end_date)) {
     res.send({
       status: 400,
       message: "Dates in incompatible format, insure that they are compatible dates."
     })
   }
   // Check if arrays
-  if(!Array.isArray(req.body.appointment_mediums) || !Array.isArray(req.body.appointment_types)){
+  if (!Array.isArray(req.body.appointment_mediums) || !Array.isArray(req.body.appointment_types)) {
     res.send({
       status: 400,
       message: "appointment_mediums or appointment_types are not arrays, please ensure they are arrays."
@@ -86,17 +86,22 @@ app.get('/appointments', async function (req, res) {
 });
 
 
-app.post('/counsellors/:id/appointments/add', async function (req, res){
+function postMiddleware(req, res, next) {
+  // checks
+  next()
+}
+
+app.post('/counsellors/:id/appointments/add', async function (req, res) {
   // Check payload exists.
-  if(req.body == undefined && req.body.datetimes == undefined){
+  if (req.body == undefined && req.body.datetimes == undefined) {
     res.send({
       staus: 400,
       message: "No datetimes provided to add."
     });
   }
-      
+
   // Check payload is array
-  else if(!Array.isArray(req.body.datetimes)){
+  else if (!Array.isArray(req.body.datetimes)) {
     res.send({
       status: 400,
       message: "datetimes must be an array"
@@ -104,7 +109,7 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
   }
 
   // Check it isn't empty
-  else if(req.body.datetimes.length == 0){
+  else if (req.body.datetimes.length == 0) {
     res.send({
       status: 200,
       message: "Empty list of dates. No appointments added."
@@ -113,14 +118,14 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
 
   // Check if all the values in the array can be turned into a datetime using Date. This isn't perfect as Date is weird but good enough for this.
   req.body.datetimes.forEach((x: any) => {
-    if(!Date.parse(x)){
+    if (!Date.parse(x)) {
       res.send({
         status: 400,
         message: "datetimes includes a incompatible datetime string: " + x
       })
     }
 
-    else if (Date.parse(x) < Date.now()){
+    else if (Date.parse(x) < Date.now()) {
       res.send({
         status: 400,
         message: "datetimes includes a datetime that is in the past: " + x
@@ -130,7 +135,7 @@ app.post('/counsellors/:id/appointments/add', async function (req, res){
 
   // Adds the appointments.
   var val: any = await counsellor_model.findById(req.params.id)
-    .then(()=>{
+    .then(() => {
       req.body.datetimes.forEach(async (x: any) => {
         add_appointment(req.params.id, new Date(x))
           .catch((err) => {
